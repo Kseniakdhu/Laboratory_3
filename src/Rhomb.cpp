@@ -1,20 +1,20 @@
 #include <iostream>
+#include <utility>
 #include "../include/Rhomb.hpp"
 #include "../include/Point.hpp"
 
 using namespace std;
 
-Rhomb() : Figure(){}
+Rhomb::Rhomb() : Figure() {}
 
-Rhomb(const Point& A, const Point& B, const Point& C, const Point& D) : Figure(A, B, C, D)
+Rhomb::Rhomb(const Point& A, const Point& B, const Point& C, const Point& D) : Figure(A, B, C, D) {}
 
-Rhomb(const Rhomb& other) : Figure(other){}
+Rhomb::Rhomb(const Rhomb& other) : Figure(other) {}
 
-Rhomb(Rhomb&& other) noexcept : Figure(move(other)){}
+Rhomb::Rhomb(Rhomb&& other) noexcept : Figure(move(other)) {}
 
-Rhomb& Rhomb:: operator=(const Rhomb& other) {
-    if (&other != this) {
-        points = new Point[size];
+Rhomb& Rhomb::operator=(const Rhomb& other) {
+    if (this != &other) {
         for (int i = 0; i < 4; ++i) {
             points[i] = other.points[i];
         }
@@ -22,19 +22,17 @@ Rhomb& Rhomb:: operator=(const Rhomb& other) {
     return *this;
 }
 
-Rhomb& Rhomb:: operator=(Rhomb&& other) noexcept {
-    if (&other != this) {
-        points = other.points;
-        other.points = nullptr;
+Rhomb& Rhomb::operator=(Rhomb&& other) noexcept {
+    if (this != &other) {
+        for (int i = 0; i < 4; ++i) {
+            points[i] = move(other.points[i]);
         }
+    }
     return *this;
 }
 
 bool Rhomb::operator==(const Rhomb& other) const {
-    if (this->area() != other.area()) {
-        return false;
-    }
-    return true;
+    return this->area() == other.area();
 }
 
 Point Rhomb:: geometric_center() const{
@@ -52,3 +50,7 @@ double Rhomb:: area() const{
 Rhomb::operator double() const{
     return this->area();
 }
+
+Rhomb* Rhomb::clone() const {
+    return new Rhomb(*this);
+} 

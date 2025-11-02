@@ -1,21 +1,15 @@
 #include <iostream>
-#include "Point.hpp"
-#include "Figure.hpp"
-#include "Rectangle.hpp"
-#include "Rhomb.hpp"
-#include "Trapezoid.hpp"
-
+#include "../include/Point.hpp"
+#include "../include/Figure.hpp"
+#include "../include/Rectangle.hpp"
+#include "../include/Rhomb.hpp"
+#include "../include/Trapezoid.hpp"
+#include "../include/FigureArray.hpp"
 using namespace std;
 
 int main() {
-    cout << "=== Testing Point class ===" << endl;
-    Point p1(0, 0), p2(3, 0), p3(3, 4), p4(0, 4);
-    cout << "p1: " << p1 << endl;
-    cout << "p2: " << p2 << endl;
-    cout << "Distance between p1 and p2: " << distance(p1, p2) << endl;
-    cout << endl;
-
     cout << "=== Testing Rectangle ===" << endl;
+    Point p1(0, 0), p2(0, 3), p3(4, 3), p4(4, 0);
     Rectangle rect(p1, p2, p3, p4);
     cout << "Rectangle points: " << rect << endl;
     cout << "Area: " << rect.area() << endl;
@@ -64,14 +58,41 @@ int main() {
     cout << "Assigned rectangle area: " << rect_assign.area() << endl;
     cout << endl;
 
-    cout << "=== Testing input (commented out for demo) ===" << endl;
-    /*
-    Rectangle user_rect;
-    cout << "Enter 4 points for rectangle:" << endl;
-    cin >> user_rect;
-    cout << "User rectangle: " << user_rect << endl;
-    cout << "User rectangle area: " << user_rect.area() << endl;
-    */
+    cout << "=== Testing aFigureArray" << endl;
+    cout << "\n1. Creating array and adding figures..." << endl;
+    FigureArray array;
+    
+    array.add_figure(new Trapezoid(Point(0,0), Point(4,0), Point(3,3), Point(1,3)));
+    array.add_figure(new Rhomb(Point(0,0), Point(3,3), Point(6,0), Point(3,-3)));
+    array.add_figure(new Rectangle(Point(0,0), Point(5,0), Point(5,3), Point(0,3)));
+    
+    cout << "=== Testing function FigureArray ===" << endl;
+    cout << "Size: " << array.size2() << endl;
+    cout << "Total area: " << array.total_area() << endl;
+
+    cout << "=== Testing element acess ===" << endl;
+    cout << "First figure area: " << array[0]->area() << endl;
+    cout << "First figure area: " << array[1]->area() << endl;
+    cout << "First figure area: " << array[2]->area() << endl;
+    cout << "Geometric centers:" << endl;
+    array.total_center();
+
+    cout << "=== Testing copy ===" << endl;
+    FigureArray copied_array(array);
+    cout << "Copied array size: " << copied_array.size2() << endl;
+    cout << "Arrays equal: " << (array == copied_array ? "Yes" : "No") << endl;
+    cout << "Arrays equal: " << array.get_figure(0) << endl;
+    cout << "Arrays equal: " << array.get_figure(1) << endl;
+    cout << "Arrays equal: " << array.get_figure(2) << endl;
+
+    cout << "=== Testing removal function ===" << endl;
+    array.remove_figure(1);
+    cout << "Size after removal: " << array.size2() << endl;
+
+    cout << "=== Testing get function pointer ===" << endl;
+    cout <<"1: " << array.get_figure(0) << endl;
+    cout <<"2: " <<  array.get_figure(1) << endl;
+    cout <<"3: " << array.get_figure(2) << endl;
 
     return 0;
 }

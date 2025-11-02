@@ -6,29 +6,28 @@
 #include "Point.hpp"
 
 class Figure {
-    friend ostream& operator<<(ostream& os, const Figure& figure);
-    friend istream& operator>>(istream& is, Figure& figure);
+    friend std::ostream& operator<<(std::ostream& os, const Figure& figure);
+    friend std::istream& operator>>(std::istream& is, Figure& figure);
 
 protected:
     int size;
-    Point points[size];
+    Point points[4];
 
 public:
     Figure();
     Figure(const Point& A, const Point& B, const Point& C, const Point& D);
-    Rectangle(const Rectangle& other);
-    Rectangle(Rectangle&& other) noexcept;
+    
+    Figure(const Figure& other);
+    Figure(Figure&& other) noexcept;
+    
     void Push(const Point& point);
 
-virtual Point geometric_center() const = 0;
+    virtual Point geometric_center() const = 0;
     virtual double area() const = 0;
     virtual operator double() const = 0;
-
-    Figure& operator=(const Figure& other);
-    Figure& operator=(Figure&& other) noexcept;
     
- 
-    virtual ~Figure() = default();
+    virtual ~Figure() = default;
+    virtual Figure* clone() const = 0;
 };
 
 #endif
